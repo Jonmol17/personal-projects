@@ -1,0 +1,6 @@
+@MashUpServer_HostAddress = http://localhost:5101
+
+GET {{MashUpServer_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
