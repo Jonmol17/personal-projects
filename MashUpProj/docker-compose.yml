@@ -1,0 +1,62 @@
+version: '3'
+
+services:
+  backend:
+    build: ./MashUpServer
+    ports:
+      - "8080:8080"
+    environment:
+      MONGO_DB_NAME: ${MONGO_DB_NAME}
+      MONGO_URL: ${MONGO_URL}
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_ISSUER: ${JWT_ISSUER}
+      JWT_AUDIENCE: ${JWT_AUDIENCE}
+  
+  frontend:
+    build: ./mashup-client
+    ports:
+      - "3000:3000"
+
+  mongodb:
+    image: mongo
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+    volumes:
+      - mongo-data:/data/db
+    ports:
+      - "27017:27017"
+
+  mongo-express:
+    image: mongo-express
+    restart: unless-stopped
+    ports:
+      - "8081:8081"
+    environment:
+      ME_CONFIG_MONGODB_URL: ${ME_CONFIG_MONGODB_URL}
+      ME_CONFIG_BASICAUTH_ENABLED: true
+      ME_CONFIG_BASICAUTH_USERNAME: ${ME_CONFIG_BASICAUTH_USERNAME}
+      ME_CONFIG_BASICAUTH_PASSWORD: ${ME_CONFIG_BASICAUTH_PASSWORD}
+
+volumes:
+  mongo-data:
+
+# ------ Ska finnas i .env filen ---------- #
+# MONGO_DB_NAME=MashUpDb
+
+# MONGO_INITDB_ROOT_USERNAME=DittAnv
+# MONGO_INITDB_ROOT_PASSWORD=DittPassw
+
+# MONGO_URL=mongodb://DittAnv:DittPassw@mongodb:27017
+
+# ME_CONFIG_MONGODB_URL=mongodb://DittAnv:DittPassw@mongodb:27017/
+
+# ME_CONFIG_BASICAUTH_USERNAME=DittAnv
+# ME_CONFIG_BASICAUTH_PASSWORD=DittPassw
+
+# JWT_SECRET=SecretExample
+# JWT_ISSUER=IssuerExample
+# JWT_AUDIENCE=ClientExample

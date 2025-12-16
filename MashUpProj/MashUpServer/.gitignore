@@ -1,0 +1,8 @@
+bin/
+obj/
+.vscode/
+.idea/
+*.user
+*.suo
+*.swp
+**/docker-compose.override.yml
