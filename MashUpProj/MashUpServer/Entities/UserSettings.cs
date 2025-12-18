@@ -1,22 +1,21 @@
-using System.ComponentModel.DataAnnotations;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace MashUpServer.Entities
 {
-     public class UserSettings
-     {
+    public class UserSettings
+    {
         [BsonId]
-        [BsonElement("us_id"), BsonRepresentation(BsonType.ObjectId)]
-        public int Us_Id { get; set; }
-        
-        [BsonElement("temp_scale"), BsonRepresentation(BsonType.String)]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string Us_Id { get; set; }
+
+        [BsonElement("temp_scale")]
         public required string Temp_Scale { get; set; }
 
-        [BsonElement("wind_speed"), BsonRepresentation(BsonType.String)]
+        [BsonElement("wind_speed")]
         public required string Wind_Speed { get; set; }
 
-        [BsonElement("darkmode"), BsonRepresentation(BsonType.Boolean)]
+        [BsonElement("darkmode")]
         public bool Darkmode { get; set; } = false;
-     }
+    }
 }

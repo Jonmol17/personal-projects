@@ -3,19 +3,19 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace MashUpServer.Entities
 {
-     public class User
-     {
-         [BsonId]
-         [BsonElement("user_id"), BsonRepresentation(BsonType.ObjectId)]
-         public int User_Id { get; set; }
+    public class User
+    {
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string User_Id { get; set; }
 
-         [BsonElement("username"), BsonRepresentation(BsonType.String)]
-         public string Username { get; set; }
+        [BsonElement("username")]
+        public string Username { get; set; }
 
-         [BsonElement("password_hashed"), BsonRepresentation(BsonType.String)]
-         public string Password_Hashed { get; set; }
+        [BsonElement("password_hashed")]
+        public string Password_Hashed { get; set; }
 
-         [BsonElement("created_at"), BsonRepresentation(BsonType.DateTime)]
-         public DateOnly Created_At { get; set; }
-     }
+        [BsonElement("created_at")]
+        public DateTime Created_At { get; set; }
+    }
 }

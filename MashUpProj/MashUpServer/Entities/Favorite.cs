@@ -7,13 +7,13 @@ namespace MashUpServer.Entities
      public class Favorite
      {
         [BsonId]
-        [BsonElement("user_id"), BsonRepresentation(BsonType.ObjectId)]
-        public int Favorite_Id { get; set; }
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string Favorite_Id { get; set; }
 
-        [BsonElement("city"), BsonRepresentation(BsonType.String)]
+        [BsonElement("city")]
         public string City { get; set; }
         
-        [BsonElement("country"), BsonRepresentation(BsonType.String)]
+        [BsonElement("country")]
         public string Country { get; set; }
      }
 }

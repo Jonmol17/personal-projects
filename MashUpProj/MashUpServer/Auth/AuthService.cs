@@ -18,7 +18,7 @@ namespace MashUpServer.Auth
         public AuthService(MongoDbService mongo, IConfiguration configuration)
         {
             _configuration = configuration;
-            _users = mongo.Database.GetCollection<User>("Users");
+            _users = mongo.Database.GetCollection<User>("users");
         }
 
         public async Task<string?> LoginUserAsync(UserLoginDTO userLoginDTO)
@@ -61,7 +61,7 @@ namespace MashUpServer.Auth
 
             user.Username = userDTO.Username;
             user.Password_Hashed = hashedPassword;
-            user.Created_At = DateOnly.FromDateTime(DateTime.Now);
+            user.Created_At = DateTime.UtcNow;
 
             await _users.InsertOneAsync(user);
 
@@ -82,7 +82,7 @@ namespace MashUpServer.Auth
             };
 
             var key = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(_configuration[SecretKey]));
+                Encoding.UTF8.GetBytes(SecretKey));
 
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512);
 

@@ -4,11 +4,12 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using MashUpServer.Hubs;
+using MashUpServer.ExternalApis;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Env variabler från Docker miljön
-string SecretKey = Environment.GetEnvironmentVariable("JWT_SECRET_KEY");
+string SecretKey = Environment.GetEnvironmentVariable("JWT_SECRET");
 string Issuer = Environment.GetEnvironmentVariable("JWT_ISSUER");
 string Audience = Environment.GetEnvironmentVariable("JWT_AUDIENCE");
 
@@ -63,17 +64,22 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddScoped<DataHub>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<WeatherService>();
+
 builder.Services.AddSingleton<MongoDbService>();
+
+builder.Services.AddScoped<HttpClient>();
 
 builder.Services.AddSignalR();
 
+builder.Services.AddEndpointsApiExplorer(); 
+builder.Services.AddSwaggerGen();
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
-}
+app.MapOpenApi();
+app.UseSwagger(); 
+app.UseSwaggerUI();
 
 app.UseCors();
 
