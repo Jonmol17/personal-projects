@@ -1,8 +1,6 @@
 
 namespace MashUpServer.ExternalApis
 {
-
-/*
     public class WeatherDTO
     {
         public LocationDTO Location { get; set; }
@@ -32,9 +30,9 @@ namespace MashUpServer.ExternalApis
             public string Icon { get; set; }
         }
     }
-    */
+    
 
-
+/*
     // Data utifrån WeatherAPI
     public class WeatherDTO
     {
@@ -55,6 +53,6 @@ namespace MashUpServer.ExternalApis
         public string Text { get; set; } // ex: "Light drizzle"
         public string Icon { get; set; } // ex: "//cdn.weatherapi.com/weather/64x64/day/266.png"
     }
-
+*/
 
 }
