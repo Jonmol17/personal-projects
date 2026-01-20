@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -30,11 +31,10 @@ namespace MashUpServer.ExternalApis
 
             if (weather == null)
             {
-                return NotFound("Hittade ingen väderdata för" + input);
+                return NotFound("Hittade ingen väderdata för " + input);
             }
 
             return Ok(weather);
         }
     }
-
 }

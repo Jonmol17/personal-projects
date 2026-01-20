@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using MashUpServer.Hubs;
 using MashUpServer.ExternalApis;
+using MashUpServer.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -42,7 +43,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
               var path = context.HttpContext.Request.Path;
               if (!string.IsNullOrEmpty(accessToken) &&
-                  (path.StartsWithSegments("/DataHubV1")))
+                  path.StartsWithSegments("/DataHubV1"))
               {
                   context.Token = accessToken;
               }
@@ -62,18 +63,25 @@ builder.Services.AddCors(options =>
     });
 });
 
-builder.Services.AddScoped<DataHub>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<WeatherService>();
+builder.Services.AddScoped<ImageService>();
+builder.Services.AddScoped<FavoriteService>();
+builder.Services.AddScoped<UserService>();
 
 builder.Services.AddSingleton<MongoDbService>();
 
 builder.Services.AddScoped<HttpClient>();
 
-builder.Services.AddSignalR();
+builder.Services.AddSignalR(options =>
+{
+    options.EnableDetailedErrors = true;
+});
 
 builder.Services.AddEndpointsApiExplorer(); 
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 
@@ -81,9 +89,9 @@ app.MapOpenApi();
 app.UseSwagger(); 
 app.UseSwaggerUI();
 
-app.UseCors();
-
 app.UseHttpsRedirection();
+
+app.UseCors();
 
 app.UseAuthentication();
 app.UseAuthorization();

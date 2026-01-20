@@ -15,7 +15,7 @@ function LogIn() {
 
   useEffect(() => {
     if (isAuthenticated) {
-      router.push('/homepage'); 
+      router.push('/'); 
     }
   }, [isAuthenticated, router]);
 
@@ -29,7 +29,7 @@ function LogIn() {
         Password: password 
       });
 
-      router.push('/homepage');
+      router.push('/');
     } catch (err) {
       if (err.response && err.response.data?.message) {
         setError(err.response.data.message);

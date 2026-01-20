@@ -10,6 +10,9 @@ namespace MashUpServer.Entities
         [BsonRepresentation(BsonType.ObjectId)]
         public string Favorite_Id { get; set; }
 
+        [BsonElement("user_id")]
+        public string User_Id { get; set; }
+
         [BsonElement("city")]
         public string City { get; set; }
         

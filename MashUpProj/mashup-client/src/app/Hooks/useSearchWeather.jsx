@@ -9,7 +9,18 @@ export function useSearchWeather() {
   const [ weatherError, setWeatherError ] = useState(null);
   const [ weatherData, setWeatherData ] = useState(null);
 
+  const [ imagedata, setImagedata ] = useState(null);
+
   const { api } = useAuth();
+
+  const replaceSweChar = (str) => {
+    return str.replaceAll('å', 'a')
+      .replaceAll('ä', 'a')
+      .replaceAll('ö', 'o')
+      .replaceAll('Å', 'A')
+      .replaceAll('Ä', 'A')
+      .replaceAll('Ö', 'O');
+  }
 
   async function fetchWeatherCurrent() {
 
@@ -22,9 +33,31 @@ export function useSearchWeather() {
     setWeatherError(null);
 
     try {
-      const res = await api.get(`api/weather/current/${query}`);
+      const fixedQuery = replaceSweChar(query);
+
+      const res = await api.get(`api/weather/current/${fixedQuery}`);
       setWeatherData(res.data);
-      console.log("Fetched current weather data:", res.data);
+
+      var condition = res.data.current.condition.text;
+
+      if (condition === "Soligt") {
+        condition = "Sunny weather";
+      } else if (condition === "Molnigt") {
+        condition = "Cloudy weather";
+      } else if (condition === "Lätt duggregn") {
+        condition = "Rainy weather";
+      } else if (condition === "Lätt snöfall") {
+        condition = "Snowy weather";
+      }
+
+      const imageQuery = fixedQuery + " " + condition;
+      console.log("Image query:", imageQuery);
+
+      const res2 = await api.get(`api/image/fetchImage/${fixedQuery}`);
+      setImagedata(res2.data);
+
+      console.log("Image data:", res2.data);
+
     } catch (err) {
       console.error("Error fetching current weather:", err);
       setWeatherError(err);
@@ -39,6 +72,7 @@ export function useSearchWeather() {
     fetchWeatherCurrent,
     isLoadingWeather,
     weatherError,
-    weatherData
+    weatherData,
+    imagedata,
   };
 }

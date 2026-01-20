@@ -27,12 +27,12 @@ export function AuthProvider({ children }) {
 
   const api = axios.create({
     baseURL: process.env.NEXT_PUBLIC_API_URL,
-    withCredentials: true,
   });
 
   api.interceptors.request.use(
     (config) => {
       const token = localStorage.getItem("Token");
+      console.log("Context token: ", token);
       if (token) {
         try {
           const cleanToken = token.replace(/^"|"$/g, '');
@@ -76,10 +76,10 @@ export function AuthProvider({ children }) {
   };
 
   const logout = async () => {
-    LogoutSetOnlineFalse(userId);
     localStorage.removeItem("Token");
     setUser(null);
     router.push('/');
+    window.location.reload();
   };
 
   useEffect(() => {

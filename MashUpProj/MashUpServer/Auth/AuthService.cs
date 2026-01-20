@@ -10,16 +10,10 @@ using MashUpServer.Data;
 
 namespace MashUpServer.Auth
 {
-    public class AuthService : IAuthService
+    public class AuthService(MongoDbService mongo, IConfiguration configuration) : IAuthService
     {
-        private readonly IMongoCollection<User> _users;
-        private readonly IConfiguration _configuration;
-
-        public AuthService(MongoDbService mongo, IConfiguration configuration)
-        {
-            _configuration = configuration;
-            _users = mongo.Database.GetCollection<User>("users");
-        }
+        private readonly IMongoCollection<User> _users = mongo.Database.GetCollection<User>("users");
+        private readonly IConfiguration _configuration = configuration;
 
         public async Task<string?> LoginUserAsync(UserLoginDTO userLoginDTO)
         {
@@ -87,8 +81,8 @@ namespace MashUpServer.Auth
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512);
 
             var tokenDescriptor = new JwtSecurityToken(
-                issuer: _configuration[Issuer],
-                audience: _configuration[Audience],
+                issuer: Issuer,
+                audience: Audience,
                 claims: claims,
                 expires: DateTime.Now.AddDays(1),
                 signingCredentials: creds

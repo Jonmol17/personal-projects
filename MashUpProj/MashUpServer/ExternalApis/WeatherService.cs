@@ -21,13 +21,8 @@ namespace MashUpServer.ExternalApis
 
             var lowerCaseInput = input.ToLower();
 
-            Console.WriteLine($"{baseUrl}/{endpoint}?q={lowerCaseInput}&lang={lang}&key={apiKey}");
-
             HttpResponseMessage response = await _httpClient.GetAsync(
                 $"{baseUrl}/{endpoint}?q={lowerCaseInput}&lang={lang}&key={apiKey}");
-
-            Console.WriteLine(response.StatusCode);
-            Console.WriteLine(response.RequestMessage);
             
             string data = await response.Content.ReadAsStringAsync();
             var obj = JsonConvert.DeserializeObject<WeatherDTO>(data);
@@ -36,7 +31,7 @@ namespace MashUpServer.ExternalApis
         }
 
         // Används i SignalR hubben (WeatherfetchRealtime) 
-        public async Task<List<WeatherDTO>> FetchRealtimeAsync(float lat, float lon)
+        public async Task<WeatherDTO> FetchRealtimeAsync(float lat, float lon)
         {
             var baseUrl = Environment.GetEnvironmentVariable("WEATHER_BASE_URL");
             var endpoint = "current.json";
@@ -49,9 +44,9 @@ namespace MashUpServer.ExternalApis
                 $"{baseUrl}/{endpoint}?q={input}&lang={lang}&key={apiKey}");
             
             string data = await response.Content.ReadAsStringAsync();
-            var list = JsonConvert.DeserializeObject<WeatherDTO>(data);
+            var obj = JsonConvert.DeserializeObject<WeatherDTO>(data);
 
-            return new List<WeatherDTO> { list };
+            return obj;
         }
     }
 }

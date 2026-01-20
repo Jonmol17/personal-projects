@@ -13,6 +13,8 @@ services:
       JWT_AUDIENCE: ${JWT_AUDIENCE}
       WEATHER_API_KEY: ${WEATHER_API_KEY}
       WEATHER_BASE_URL: ${WEATHER_BASE_URL}
+      UNSPLASH_URL: ${UNSPLASH_URL}
+      UNSPLASH_ACCESS_KEY: ${UNSPLASH_ACCESS_KEY}
   
   frontend:
     build: ./mashup-client
@@ -43,20 +45,3 @@ services:
 
 volumes:
   mongo-data:
-
-# ------ Ska finnas i .env filen ---------- #
-# MONGO_DB_NAME=MashUpDb
-
-# MONGO_INITDB_ROOT_USERNAME=DittAnv
-# MONGO_INITDB_ROOT_PASSWORD=DittPassw
-
-# MONGO_URL=mongodb://DittAnv:DittPassw@mongodb:27017/databas
-
-# ME_CONFIG_MONGODB_URL=mongodb://DittAnv:DittPassw@mongodb:27017/
-
-# ME_CONFIG_BASICAUTH_USERNAME=DittAnv
-# ME_CONFIG_BASICAUTH_PASSWORD=DittPassw
-
-# JWT_SECRET=SecretExample
-# JWT_ISSUER=IssuerExample
-# JWT_AUDIENCE=ClientExample

@@ -7,12 +7,11 @@ export default function Home() {
     <div className="h-screen">
       <Header />
 
-        <div className="mt-2 rounded-lg shadow-md">
+        <div className="bg-gray-800">
           <HomeAside />
         
           <SearchWeather />
         </div>
-      
     </div>
   );
 }
